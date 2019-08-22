@@ -38,7 +38,7 @@ server.get('/projects', (req, res) => {
   return res.json(projects);
 })
 
-// HTTP Method POST to read specific project
+// HTTP Method GET to read specific project
 server.get('/projects/:index', (req, res) => {
   console.log('/projects is working');
   const { index } = req.params;
@@ -65,6 +65,18 @@ server.put('/projects/:id', (req, res) => {
 // HTTP Method DELETE to delete project
 server.delete('/projects/:id', (req, res) => {
   console.log('/projects is working');
+  const { id } = req.params;
+
+  for (let i = 0; i < projects.length; i++) {
+    if (projects[i]['id'] == id) {
+      projects.splice(i, 1);
+      i--;
+    }
+  }
+
+  // Respond to the requisition with a list of projects in JSON format
+  return res.json(projects);
+
 })
 
 // HTTP Method POST to add task to a specific project
