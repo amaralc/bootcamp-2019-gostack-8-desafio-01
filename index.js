@@ -64,7 +64,6 @@ server.put('/projects/:id', (req, res) => {
 
 // HTTP Method DELETE to delete project
 server.delete('/projects/:id', (req, res) => {
-  console.log('/projects is working');
   const { id } = req.params;
 
   for (let i = 0; i < projects.length; i++) {
@@ -82,6 +81,18 @@ server.delete('/projects/:id', (req, res) => {
 // HTTP Method POST to add task to a specific project
 server.post('/projects/:id/tasks', (req, res) => {
   console.log('/projects is working');
+  const { id } = req.params;
+  const { title } = req.body;
+
+  projects.forEach((arrayItem) => {
+    if (arrayItem.id == id) {
+      arrayItem.tasks.push(title);
+    }
+  });
+
+  // Respond to the requisition with a list of projects in JSON format
+  return res.json(projects);
+
 })
 
 // Tell the express instance "server" to listen to port 3000
