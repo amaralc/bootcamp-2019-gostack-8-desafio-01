@@ -1,49 +1,58 @@
-// Importa express como "express"
+// Import the express dependency as "express"
 const express = require('express');
 
-// Instancia servidor "server"
+// Create an instance of express called "server"
 const server = express();
 
-// Define forma de receber corpo da requisição
+// IMPORTANT! Define format to receive the body of the requisition
 server.use(express.json());
 
-// Define lista de projetos
+// Define an initial empty list of projects
 const projects = [];
 
-// CMétodo http post para criar projeto
+// HTTP Method POST for creating a project
 server.post('/projects', (req, res) => {
-  console.log('/projects is working');
 
-  // Cria variável "name" desestruturando o corpo da requisição que deve constar com atributo "name"
-  const { name } = req.body;
+  // Create variables "id" and "title" destructuring the requisition's body
+  // which must have the attributes "id" and "title"
+  const { id } = req.body;
+  const { title } = req.body;
 
-  // Adiciona "name" à lista de projetos
-  projects.push(name);
+  // Create a "project" object storing the id and title from "req" and with
+  // a blank list of tasks 
+  const project = {
+    "id": id,
+    "title": title,
+    "tasks": []
+  }
 
-  // Responde à requisição no formato json com a lista de projetos
+  // Add the object "project" to the list "projects"
+  projects.push(project);
+
+  // Respond to the requisition with a list of projects in JSON format
   return res.json(projects);
 })
 
-// Método http post para ler lista de projetos
+// HTTP Method POST to read list of projects
 server.get('/projects', (req, res) => {
   console.log('/projects is working');
   return res.json(projects);
 })
 
-// Método http put para alterar nome do projeto
+// HTTP Method PUT to change project title
 server.put('/projects/:id', (req, res) => {
   console.log('/projects is working');
 })
 
-// Método http delete para deletar projeto
+// HTTP Method DELETE to delete project
 server.delete('/projects/:id', (req, res) => {
   console.log('/projects is working');
 })
 
-// Método http post para adicionar tarefa a um projeto específico
+// HTTP Method POST to add task to a specific project
 server.post('/projects/:id/tasks', (req, res) => {
   console.log('/projects is working');
 })
 
-// Diz para instância do servidor escutar na porta 3000
+// Tell the express instance "server" to listen to port 3000
 server.listen(3000);
