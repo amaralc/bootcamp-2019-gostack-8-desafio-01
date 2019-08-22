@@ -47,12 +47,15 @@ server.get('/projects/:index', (req, res) => {
 })
 
 // HTTP Method PUT to change project title
-server.put('/projects/:index', (req, res) => {
-  console.log('/projects is working');
-  const { index } = req.params;
+server.put('/projects/:id', (req, res) => {
+  const { id } = req.params;
   const { title } = req.body;
 
-  projects[index]['title'] = title;
+  projects.forEach((arrayItem) => {
+    if (arrayItem.id == id) {
+      arrayItem.title = title;
+    }
+  });
 
   // Respond to the requisition with a list of projects in JSON format
   return res.json(projects);
