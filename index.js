@@ -35,13 +35,28 @@ server.post('/projects', (req, res) => {
 
 // HTTP Method POST to read list of projects
 server.get('/projects', (req, res) => {
-  console.log('/projects is working');
   return res.json(projects);
 })
 
-// HTTP Method PUT to change project title
-server.put('/projects/:id', (req, res) => {
+// HTTP Method POST to read specific project
+server.get('/projects/:index', (req, res) => {
   console.log('/projects is working');
+  const { index } = req.params;
+
+  return res.json(projects[index]);
+})
+
+// HTTP Method PUT to change project title
+server.put('/projects/:index', (req, res) => {
+  console.log('/projects is working');
+  const { index } = req.params;
+  const { title } = req.body;
+
+  projects[index]['title'] = title;
+
+  // Respond to the requisition with a list of projects in JSON format
+  return res.json(projects);
+
 })
 
 // HTTP Method DELETE to delete project
