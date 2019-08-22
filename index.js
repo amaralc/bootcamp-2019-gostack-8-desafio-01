@@ -10,12 +10,13 @@ server.use(express.json());
 // Define an initial empty list of projects
 const projects = [];
 
-const requisitions;
+var requisitions = 0;
 
 // Global Middleware to count number of requisitions 
 server.use((req, res, next) => {
 
-  console.log("Requisitions: " + requisitions++);
+  requisitions++;
+  console.log("Requisitions: " + requisitions);
   next();
 
 })
