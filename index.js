@@ -10,6 +10,21 @@ server.use(express.json());
 // Define an initial empty list of projects
 const projects = [];
 
+// Middleware to verify if project id exists
+function verifyProject(req, res, next) {
+
+  const { id } = req.params;
+
+  projects.forEach((arrayItem) => {
+    if (arrayItem.id == id) {
+      return next();
+    }
+  });
+
+  return res.status(400).json({ error: 'Project does not exist.' });
+
+}
+
 // HTTP Method POST for creating a project
 server.post('/projects', (req, res) => {
 
@@ -47,7 +62,7 @@ server.get('/projects/:index', (req, res) => {
 })
 
 // HTTP Method PUT to change project title
-server.put('/projects/:id', (req, res) => {
+server.put('/projects/:id', verifyProject, (req, res) => {
   const { id } = req.params;
   const { title } = req.body;
 
@@ -63,7 +78,7 @@ server.put('/projects/:id', (req, res) => {
 })
 
 // HTTP Method DELETE to delete project
-server.delete('/projects/:id', (req, res) => {
+server.delete('/projects/:id', verifyProject, (req, res) => {
   const { id } = req.params;
 
   for (let i = 0; i < projects.length; i++) {
@@ -79,8 +94,7 @@ server.delete('/projects/:id', (req, res) => {
 })
 
 // HTTP Method POST to add task to a specific project
-server.post('/projects/:id/tasks', (req, res) => {
-  console.log('/projects is working');
+server.post('/projects/:id/tasks', verifyProject, (req, res) => {
   const { id } = req.params;
   const { title } = req.body;
 
